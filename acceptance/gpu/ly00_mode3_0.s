@@ -14,8 +14,8 @@
 ; You should have received a copy of the GNU General Public License
 ; along with Mooneye GB.  If not, see <http://www.gnu.org/licenses/>.
 
-; This test verifies when the STAT register changes from mode 2 to
-; mode 3 on line 0.
+; This test verifies when the STAT register changes from mode 3 to
+; mode 0 on line 0.
 
 ; Verified results:
 ;   pass: MGB, CGB, AGS

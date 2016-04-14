@@ -14,8 +14,8 @@
 ; You should have received a copy of the GNU General Public License
 ; along with Mooneye GB.  If not, see <http://www.gnu.org/licenses/>.
 
-; This test verifies when the STAT and LY registers change when moving
-; from line 0 to line 1.
+; This test verifies when the STAT register changes from mode 0 to
+; mode 1 on line 144.
 
 ; Verified results:
 ;   pass: MGB, CGB, AGS
@@ -31,15 +31,37 @@
   ld a,$f0     ; make sure the LY=LYC flag never gets set
   ldh (<LYC),a
 
+test_round1:
+  wait_ly 144
+  ld hl,LCDC
+  res 7,(hl)   ; LCD off
+  nop
+  set 7,(hl)   ; LCD on
+  wait_ly 143
+  nops 50
+  ldh a,(<LY) ; LY = 143
+  ld (round1),a
+
+test_round2:
+  wait_ly 144
+  ld hl,LCDC
+  res 7,(hl)   ; LCD off
+  nop
+  set 7,(hl)   ; LCD on
+  wait_ly 143
+  nops 50
+  ldh a,(<STAT) ; STAT = $83
+  ld (round2),a
+
 test_round3:
   wait_ly 144
   ld hl,LCDC
   res 7,(hl)
   nop
   set 7,(hl)
-  wait_ly 152
-  nops 330
-  ldh a,(<LY) ; LY = 0
+  wait_ly 143
+  nops 51
+  ldh a,(<LY) ; LY = 143
   ld (round3),a
 
 test_round4:
@@ -48,8 +70,8 @@ test_round4:
   res 7,(hl)
   nop
   set 7,(hl)
-  wait_ly 152
-  nops 330
+  wait_ly 143
+  nops 51
   ldh a,(<STAT) ; STAT = $80
   ld (round4),a
 
@@ -59,9 +81,9 @@ test_round5:
   res 7,(hl)
   nop
   set 7,(hl)
-  wait_ly 152
-  nops 331
-  ldh a,(<LY) ; LY = 1
+  wait_ly 143
+  nops 101
+  ldh a,(<LY) ; LY = 144
   ld (round5),a
 
 test_round6:
@@ -70,8 +92,8 @@ test_round6:
   res 7,(hl)
   nop
   set 7,(hl)
-  wait_ly 152
-  nops 331
+  wait_ly 143
+  nops 101
   ldh a,(<STAT) ; STAT = $80
   ld (round6),a
 
@@ -81,9 +103,9 @@ test_round7:
   res 7,(hl)
   nop
   set 7,(hl)
-  wait_ly 152
-  nops 332
-  ldh a,(<LY) ; LY = 1
+  wait_ly 143
+  nops 102
+  ldh a,(<LY) ; LY = 144
   ld (round7),a
 
 test_round8:
@@ -92,12 +114,21 @@ test_round8:
   res 7,(hl)
   nop
   set 7,(hl)
-  wait_ly 152
-  nops 332
-  ldh a,(<STAT) ; STAT = $82
+  wait_ly 143
+  nops 102
+  ldh a,(<STAT) ; STAT = $81
   ld (round8),a
 
 test_finish:
+  ld a,(round1)
+  ld b,a
+  ld a,(round2)
+  rla
+  rla
+  rla
+  rla
+  ld c,a
+  push bc
   ld a,(round3)
   ld b,a
   ld a,(round4)
@@ -110,14 +141,17 @@ test_finish:
   ld h,a
   ld a,(round8) 
   ld l,a
+  pop af
 
   save_results
-  assert_b 0
+  assert_a 143
+  assert_f $30
+  assert_b 143
   assert_c $80
-  assert_d 1
+  assert_d 144
   assert_e $80
-  assert_h 1
-  assert_l $82
+  assert_h 144
+  assert_l $81
   jp process_results
 
 .ramsection "Test-State" slot 2
