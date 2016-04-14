@@ -89,7 +89,7 @@ test_round5:
   set 7,(hl)
   wait_ly 152
   nops 104
-  ldh a,(<LY) ; LY = 153 on DMG/MGB/SGB/SGB2 ?, 0 on CGB, AGB, and AGS?
+  ldh a,(<LY) ; LY = 0 on DMG/MGB/SGB/SGB2 ?, 153 on CGB, AGB, and AGS?
   ld (round5),a
 
 test_round6:
