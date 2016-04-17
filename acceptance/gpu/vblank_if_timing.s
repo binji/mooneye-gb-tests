@@ -78,7 +78,7 @@ test_round4:
   set 7,(hl)   ; LCD on
   call wait_vblank_irq
   di
-  nops 95
+  nops 96
   ldh a,(<LY)  ; LY = 144
   ld (round4),a
 
@@ -90,7 +90,7 @@ test_round5:
   set 7,(hl)   ; LCD on
   call wait_vblank_irq
   di
-  nops 96
+  nops 97
   ldh a,(<LY)  ; LY = 145
   ld (round5),a
 
@@ -120,16 +120,14 @@ test_finish:
 
 wait_vblank_irq:
   wait_ly 142
-  ld a,%00010000
-  ldh (<STAT),a
   ld a,$01
   ldh (<IE),a
   dec a
   ldh (<IF),a
   ei
-loop:
-  jr loop
- 
+  nops 1000
+  test_failure_string "VBLANK_IRQ"
+
 .org INTR_VEC_VBLANK
   add sp,+2
   ret
