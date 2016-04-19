@@ -88,6 +88,34 @@ test_round4:
   ld a,(TIMA)
   ld (round4),a
 
+test_round5:
+  xor a
+  ldh (<IF),a
+  ld a,b
+  ldh (<TIMA), a
+  ldh (<DIV),a
+  ldh (<TIMA), a
+  ldh (<DIV),a
+  call wait_timer_irq_halt
+  di
+  nops 44
+  ld a,(TIMA)
+  ld (round5),a
+
+test_round6:
+  xor a
+  ldh (<IF),a
+  ld a,b
+  ldh (<TIMA), a
+  ldh (<DIV),a
+  ldh (<TIMA), a
+  ldh (<DIV),a
+  call wait_timer_irq_halt
+  di
+  nops 45
+  ld a,(TIMA)
+  ld (round6),a
+
   ld a,(round1)
   ld d,a
   ld a,(round2)
@@ -96,8 +124,14 @@ test_round4:
   ld h,a
   ld a,(round4)
   ld l,a
+  ld a,(round5)
+  ld b,a
+  ld a,(round6)
+  ld c,a
 
   save_results
+  assert_b $fe
+  assert_c $ff
   assert_d $e0
   assert_e $e4
   assert_h $fe
@@ -111,6 +145,17 @@ wait_timer_irq:
   ldh (<IF),a
   ei
   nops 1000
+  test_failure_string "TIMER_IRQ"
+
+wait_timer_irq_halt:
+  ld a,INTR_TIMER
+  ldh (<IE),a
+  xor a
+  ldh (<IF),a
+  ei
+  nop
+  halt
+  nop
   test_failure_string "TIMER_IRQ"
 
 .org INTR_VEC_TIMER
