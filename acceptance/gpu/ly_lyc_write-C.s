@@ -51,7 +51,7 @@ test_round1:
   ei
   nops 98
   ldh (<LYC),a
-  nops 30
+  nops 5
   ld a,b        ; no irq triggered
   ld (round1),a
 
@@ -72,7 +72,6 @@ test_round2:
   ei
   nops 99
   ldh (<LYC),a
-  nops 30
   ld a,b        ; irq triggered
   ld (round2),a
 
@@ -93,7 +92,8 @@ test_round3:
   ei
   nops 211
   ldh (<LYC),a
-  nops 50
+  ldh a,(<STAT)
+  ld (round5),a
   ld a,b         ; irq triggered
   ld (round3),a
 
@@ -114,11 +114,11 @@ test_round4:
   ei
   nops 212
   ldh (<LYC),a
-  nops 50
+  ldh a,(<STAT)
+  ld (round6),a
+  nops 5
   ld a,b         ; no irq triggered
   ld (round4),a
-
-
 
 
 test_finish:
@@ -130,14 +130,18 @@ test_finish:
   ld d,a
   ld a,(round4)
   ld e,a
+  ld a,(round5)
+  ld h,a
+  ld a,(round6)
+  ld l,a
 
   save_results
   assert_b 0
   assert_c 1
   assert_d 1
   assert_e 0
-;  assert_h $C4
-;  assert_l $C0
+  assert_h $C2
+  assert_l $C2
   jp process_results
 
 .org INTR_VEC_STAT
