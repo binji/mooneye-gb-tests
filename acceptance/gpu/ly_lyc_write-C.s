@@ -120,6 +120,58 @@ test_round4:
   ld a,b         ; no irq triggered
   ld (round4),a
 
+test_round7:
+  di
+  wait_ly 144
+  ld hl,LCDC
+  res 7,(hl)   ; LCD off
+  nop
+  set 7,(hl)   ; LCD on
+  ld a,2
+  ldh (<LYC),a
+  xor a
+  ldh (<IF),a
+  wait_ly 1
+  ld b,0
+  ld a,2
+  ei
+  nops 100
+  ldh (<LYC),a
+  dec a
+  ldh (<LYC),a
+  inc a
+  ldh (<LYC),a
+  dec a
+  ldh (<LYC),a
+  inc a
+  ldh (<LYC),a
+  dec a
+  ldh (<LYC),a
+  inc a
+  ldh (<LYC),a
+  dec a
+  ldh (<LYC),a
+  inc a
+  ldh (<LYC),a
+  dec a
+  ldh (<LYC),a
+  inc a
+  ldh (<LYC),a
+  dec a
+  ldh (<LYC),a
+  inc a
+  ldh (<LYC),a
+  dec a
+  ldh (<LYC),a
+  inc a
+  ldh (<LYC),a
+  dec a
+  ldh (<LYC),a
+  inc a
+  ldh (<LYC),a
+  ld a,b        ; irq triggered
+  ld (round7),a
+
 
 test_finish:
   ld a,(round1)
@@ -134,8 +186,10 @@ test_finish:
   ld h,a
   ld a,(round6)
   ld l,a
+  ld a,(round7)
 
   save_results
+  assert_a 7
   assert_b 0
   assert_c 1
   assert_d 1
