@@ -13,6 +13,8 @@
 ;
 ; You should have received a copy of the GNU General Public License
 ; along with Mooneye GB.  If not, see <http://www.gnu.org/licenses/>.
+;
+; This test was written by Wilbert Pol.
 
 ; This test verifies when the STAT register changes from mode 1 to
 ; mode 0 (!) on line 0 on MGB, and possibly also DMG, SGB, and SGB2 units.

@@ -13,6 +13,8 @@
 ;
 ; You should have received a copy of the GNU General Public License
 ; along with Mooneye GB.  If not, see <http://www.gnu.org/licenses/>.
+;
+; This test was written by Wilbert Pol.
 
 ; Test when writes to LYC get picked up for the LY==LYC check around
 ; line 0.

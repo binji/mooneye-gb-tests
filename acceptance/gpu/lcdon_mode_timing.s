@@ -13,6 +13,8 @@
 ;
 ; You should have received a copy of the GNU General Public License
 ; along with Mooneye GB.  If not, see <http://www.gnu.org/licenses/>.
+;
+; This test was written by Wilbert Pol.
 
 ; When turnig the lcd on how long does it take for the STAT register
 ; to enter mode3.

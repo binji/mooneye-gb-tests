@@ -13,6 +13,8 @@
 ;
 ; You should have received a copy of the GNU General Public License
 ; along with Mooneye GB.  If not, see <http://www.gnu.org/licenses/>.
+;
+; This test was written by Wilbert Pol.
 
 ; This tests checks when the timer flag is set in the IF register and
 ; when the irq is actually taken.

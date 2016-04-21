@@ -13,6 +13,8 @@
 ;
 ; You should have received a copy of the GNU General Public License
 ; along with Mooneye GB.  If not, see <http://www.gnu.org/licenses/>.
+;
+; This test was written by Wilbert Pol.
 
 ; This test verifies when the LY register changes from from 144 to 145.
 

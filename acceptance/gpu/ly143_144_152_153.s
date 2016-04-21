@@ -13,6 +13,8 @@
 ;
 ; You should have received a copy of the GNU General Public License
 ; along with Mooneye GB.  If not, see <http://www.gnu.org/licenses/>.
+;
+; This test was written by Wilbert Pol.
 
 ; This test verifies the time between the STAT register changing from
 ; mode 3 to mode 0 on line 143 and the LY register changing from 152
