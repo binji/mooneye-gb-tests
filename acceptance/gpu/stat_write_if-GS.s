@@ -37,6 +37,8 @@
   call print_load_font
   ld a,$FF
   ld (testcase_id),a
+  ld a,$f0
+  ldh (<LYC),a
   enable_lcd
 
 .macro testcase_0 ARGS stat1 stat2 if if_cgb
@@ -81,6 +83,17 @@
   ld e,stat2
   ld h,if
   call run_testcase_3
+.endm
+
+.macro testcase_line ARGS stat1 stat2 if if_cgb
+  ; wait for mode 3 and line
+  ld a,(testcase_id)
+  inc a
+  ld (testcase_id), a
+  ld d,stat1
+  ld e,stat2
+  ld h,if
+  call run_testcase_line
 .endm
 
   ; test mode to wait for
@@ -158,6 +171,10 @@
   testcase_3 $20, $20, 0, 0
   ; other cases
   testcase_0 $00, $40, 2, 0
+  testcase_1 $08, $10, 2, 2
+  testcase_line $40, $00, 0, 0
+  testcase_line $40, $40, 0, 0
+  testcase_line $00, $40, 2, 2
   
   test_ok
 
@@ -253,6 +270,33 @@ run_testcase_3:
   ld a,e
   ldh (<STAT),a
   ldh a,(<IF)
+  and $02
+  cp h
+  ret z
+  jp test_fail
+
+run_testcase_line:
+  ; wait for mode 3
+  push hl
+  wait_ly 144
+  disable_lcd
+  enable_lcd
+  pop hl
+  ld a,10
+  ldh (<LYC),a
+  wait_ly 10
+  ld a,d
+  ldh (<STAT),a
+  wait_not_mode 3
+  wait_mode 3
+  clear_interrupts
+  ld a,e
+  ldh (<STAT),a
+  ldh a,(<IF)
+  push af
+  ld a,$f0
+  ldh (<LYC),a
+  pop af
   and $02
   cp h
   ret z
