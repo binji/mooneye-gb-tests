@@ -15,7 +15,7 @@
 ; along with Mooneye GB.  If not, see <http://www.gnu.org/licenses/>.
 
 ; Tests how long does it take to get from STAT=mode2 interrupt to mode0
-; when SCX is set to 1.
+; when SCX is set to 2.
 ; Includes sprites in various configurations
 
 ; Verified results:
@@ -75,9 +75,9 @@ _testcase_end_\@:
   testcase 2,    2
   testcase 2,    3
   ; test #04
-  testcase 1,    4
-  testcase 1,    5
-  testcase 1,    6
+  testcase 2,    4
+  testcase 2,    5
+  testcase 3,    6
   testcase 3,    7
   ; test #08
   testcase 2,    8
@@ -85,9 +85,9 @@ _testcase_end_\@:
   testcase 2,    10
   testcase 2,    11
   ; test #0C
-  testcase 1,    12
-  testcase 1,    13
-  testcase 1,    14
+  testcase 2,    12
+  testcase 2,    13
+  testcase 3,    14
   testcase 3,    15
   ; test #10
   testcase 2,    16
@@ -97,10 +97,10 @@ _testcase_end_\@:
   ; test #14
   testcase 2,    162
   testcase 2,    163
-  testcase 1,    164
-  testcase 1,    165
+  testcase 2,    164
+  testcase 2,    165
   ; test #18
-  testcase 1,    166
+  testcase 3,    166
   testcase 3,    167
 
   ; 1-N sprites at X=0
@@ -115,7 +115,7 @@ _testcase_end_\@:
   testcase 3,    4,  12
   ; test #20
   testcase 3,    5,  13
-  testcase 3,    6,  14
+  testcase 6,    6,  14
   testcase 5,    7,  15
   testcase 5,    8,  16
   ; test #24
@@ -125,7 +125,7 @@ _testcase_end_\@:
   testcase 3,    12, 20
   ; test #28
   testcase 3,    13, 21
-  testcase 3,    14, 22
+  testcase 6,    14, 22
   testcase 5,    15, 23
   testcase 5,    16, 24
 
@@ -157,7 +157,7 @@ _testcase_end_\@:
   testcase 15,   4,  4,  4,  4,  4,  4,  4,  4,  4,  4
   ; test #38
   testcase 15,   5,  5,  5,  5,  5,  5,  5,  5,  5,  5
-  testcase 15,   6,  6,  6,  6,  6,  6,  6,  6,  6,  6
+  testcase 16,   6,  6,  6,  6,  6,  6,  6,  6,  6,  6
   testcase 16,   7,  7,  7,  7,  7,  7,  7,  7,  7,  7
   testcase 16,   8,  8,  8,  8,  8,  8,  8,  8,  8,  8
   ; test #3C
@@ -167,7 +167,7 @@ _testcase_end_\@:
   testcase 15,   12, 12, 12, 12, 12, 12, 12, 12, 12, 12
   ; test #40
   testcase 15,   13, 13, 13, 13, 13, 13, 13, 13, 13, 13
-  testcase 15,   14, 14, 14, 14, 14, 14, 14, 14, 14, 14
+  testcase 16,   14, 14, 14, 14, 14, 14, 14, 14, 14, 14
   testcase 16,   15, 15, 15, 15, 15, 15, 15, 15, 15, 15
   testcase 16,   16, 16, 16, 16, 16, 16, 16, 16, 16, 16
   ; test #44
@@ -194,7 +194,7 @@ _testcase_end_\@:
   testcase 15,   4,  4,  4,  4,  4,  164,164,164,164,164
   testcase 15,   5,  5,  5,  5,  5,  165,165,165,165,165
   ; test #54
-  testcase 15,   6,  6,  6,  6,  6,  166,166,166,166,166
+  testcase 18,   6,  6,  6,  6,  6,  166,166,166,166,166
   testcase 17,   7,  7,  7,  7,  7,  167,167,167,167,167
   testcase 17,   64, 64, 64, 64, 64, 160,160,160,160,160
   testcase 16,   65, 65, 65, 65, 65, 161,161,161,161,161
@@ -204,7 +204,7 @@ _testcase_end_\@:
   testcase 15,   68, 68, 68, 68, 68, 164,164,164,164,164
   testcase 15,   69, 69, 69, 69, 69, 165,165,165,165,165
   ; test #5C
-  testcase 15,   70, 70, 70, 70, 70, 166,166,166,166,166
+  testcase 18,   70, 70, 70, 70, 70, 166,166,166,166,166
   testcase 17,   71, 71, 71, 71, 71, 167,167,167,167,167
   ; ==> non-overlapping locations affect cycles
 
@@ -218,18 +218,18 @@ _testcase_end_\@:
   ; test #64
   testcase 16,   0,  0,  0,  0,  0,  0,  1,  2,  3,  4
   testcase 16,   0,  0,  0,  0,  0,  1,  2,  3,  4,  5
-  testcase 16,   0,  0,  0,  0,  1,  2,  3,  4,  5,  6
-  testcase 17,   0,  0,  0,  1,  2,  3,  4,  5,  6,  7
+  testcase 18,   0,  0,  0,  0,  1,  2,  3,  4,  5,  6
+  testcase 18,   0,  0,  0,  1,  2,  3,  4,  5,  6,  7
   ; test #68
-  testcase 17,   0,  0,  1,  2,  3,  4,  5,  6,  7,  8
-  testcase 17,   0,  1,  2,  3,  4,  5,  6,  7,  8,  9
+  testcase 18,   0,  0,  1,  2,  3,  4,  5,  6,  7,  8
+  testcase 18,   0,  1,  2,  3,  4,  5,  6,  7,  8,  9
   testcase 17,   1,  2,  3,  4,  5,  6,  7,  8,  9,  10
   testcase 17,   2,  3,  4,  5,  6,  7,  8,  9,  10, 11
   ; test #6C
   testcase 16,   3,  4,  5,  6,  7,  8,  9,  10, 11, 12
   testcase 16,   4,  5,  6,  7,  8,  9,  10, 11, 12, 13
-  testcase 16,   5,  6,  7,  8,  9,  10, 11, 12, 13, 14
-  testcase 17,   6,  7,  8,  9,  10, 11, 12, 13, 14, 15
+  testcase 18,   5,  6,  7,  8,  9,  10, 11, 12, 13, 14
+  testcase 18,   6,  7,  8,  9,  10, 11, 12, 13, 14, 15
   ; test #70
   testcase 17,   7,  8,  9,  10, 11, 12, 13, 14, 15, 16
   testcase 17,   8,  9,  10, 11, 12, 13, 14, 15, 16, 17
@@ -240,21 +240,21 @@ _testcase_end_\@:
   testcase 16,   12, 13, 14, 15, 16, 17, 18, 19, 20, 21
 
   ; 10 sprites 8 bytes apart starting from X0=N
-  testcase 25,   0,  8,  16, 24, 32, 40, 48, 56, 64, 72
-  testcase 22,   1,  9,  17, 25, 33, 41, 49, 57, 65, 73
+  testcase 23,   0,  8,  16, 24, 32, 40, 48, 56, 64, 72
+  testcase 20,   1,  9,  17, 25, 33, 41, 49, 57, 65, 73
   ; test #78
-  testcase 20,   2,  10, 18, 26, 34, 42, 50, 58, 66, 74
-  testcase 17,   3,  11, 19, 27, 35, 43, 51, 59, 67, 75
+  testcase 18,   2,  10, 18, 26, 34, 42, 50, 58, 66, 74
+  testcase 15,   3,  11, 19, 27, 35, 43, 51, 59, 67, 75
   testcase 15,   4,  12, 20, 28, 36, 44, 52, 60, 68, 76
   testcase 15,   5,  13, 21, 29, 37, 45, 53, 61, 69, 77
    ; test #7C
-  testcase 15,   6,  14, 22, 30, 38, 46, 54, 62, 70, 78
-  testcase 27,   7,  15, 23, 31, 39, 47, 55, 63, 71, 79
-  testcase 25,   8,  16, 24, 32, 40, 48, 56, 64, 72, 80
+  testcase 28,   6,  14, 22, 30, 38, 46, 54, 62, 70, 78
+  testcase 25,   7,  15, 23, 31, 39, 47, 55, 63, 71, 79
+  testcase 23,   8,  16, 24, 32, 40, 48, 56, 64, 72, 80
 
   ; 10 sprites 8 bytes apart starting from X0=N, reverse
-  testcase 25,   72, 64, 56, 48, 40, 32, 24, 16, 8,  0
-  testcase 22,   73, 65, 57, 49, 41, 33, 25, 17, 9,  1
+  testcase 23,   72, 64, 56, 48, 40, 32, 24, 16, 8,  0
+  testcase 20,   73, 65, 57, 49, 41, 33, 25, 17, 9,  1
   ; ==> sprite order does not affect cycles
 
   test_ok
@@ -281,7 +281,7 @@ run_testcase:
   ; Enable sprites
   ld hl, LCDC
   set 1, (HL)
-  ld a,$01
+  ld a,$02
   ldh (<SCX),a
 
 testcase_round_a:
