@@ -15,17 +15,16 @@
 ; along with Mooneye GB.  If not, see <http://www.gnu.org/licenses/>.
 
 ; This test verifies that the timer count changes are actually triggered
-; by bit 7 going low when writing to the DIV register in 16384 Hz mode.
+; by bit 5 going low when writing to the DIV register in 65536 Hz mode.
 ;
-; 128 cycles after resetting the internal div counter, bit 7 of the 
+; 32 cycles after resetting the internal div counter, bit 5 of the
 ; internal div counter will have been set. Writing to the DIV register
-; at this time will cause bit 7 to change from high to low which in
+; at this time will cause bit 5 to change from high to low which in
 ; turn triggers a timer increment.
 
 ; Verified results:
-;   pass: MGB, CGB, AGS
-;   fail: ?
-;   not tested: DMG, SGB, SGB2, AGB
+;   pass: DMG, MGB, SGB, SGB2, CGB, AGB, AGS
+;   fail: -
 
 .incdir "../../common"
 .include "common.s"
@@ -40,27 +39,31 @@ test:
   ld a, b
   ldh (<TIMA), a
   ldh (<TMA),a
-  ld a, %00000111 ; Start 16384 Hz timer (256 cycles)
+  ld a, %00000110 ; Start 65536 Hz timer (64 cycles)
   ldh (<TAC), a
   ld a,b
   ldh (<DIV),a
+  nop
   ldh (<TIMA), a
-  nops 25
+  nop
   ldh (<DIV),a
+  nops 12
   ldh a,(<TIMA)
   ld d,a
 
   ld a,b
   ldh (<TIMA), a
   ldh (<DIV),a
+  nop
   ldh (<TIMA), a
-  nops 26
+  nop
   ldh (<DIV),a
+  nops 13
   ldh a,(<TIMA)
   ld e,a
 
   save_results
-  assert_d $04
-  assert_e $05
+  assert_d $05
+  assert_e $06
   jp process_results
 

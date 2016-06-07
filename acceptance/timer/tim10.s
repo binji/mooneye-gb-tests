@@ -14,18 +14,14 @@
 ; You should have received a copy of the GNU General Public License
 ; along with Mooneye GB.  If not, see <http://www.gnu.org/licenses/>.
 
-; This test verifies that the timer count changes are actually triggered
-; by bit 5 going low when writing to the DIV register in 65536 Hz mode.
+; This test checks when the timer count changes in 65536 Hz mode.
 ;
-; 32 cycles after resetting the internal div counter, bit 5 of the
-; internal div counter will have been set. Writing to the DIV register
-; at this time will cause bit 5 to change from high to low which in
-; turn triggers a timer increment.
+; The TIMA register is expected to increment every 64 cycles after the
+; div counter has been reset.
 
 ; Verified results:
-;   pass: MGB, CGB, AGS
-;   fail: ?
-;   not tested: DMG, SGB, SGB2, AGB
+;   pass: DMG, MGB, SGB, SGB2, CGB, AGB, AGS
+;   fail: -
 
 .incdir "../../common"
 .include "common.s"
@@ -44,9 +40,7 @@ test:
   ldh (<TAC), a
   ld a,b
   ldh (<DIV),a
-  nop
   ldh (<TIMA), a
-  nop
   ldh (<DIV),a
   nops 12
   ldh a,(<TIMA)
@@ -55,16 +49,14 @@ test:
   ld a,b
   ldh (<TIMA), a
   ldh (<DIV),a
-  nop
   ldh (<TIMA), a
-  nop
   ldh (<DIV),a
   nops 13
   ldh a,(<TIMA)
   ld e,a
 
   save_results
-  assert_d $05
-  assert_e $06
+  assert_d $04
+  assert_e $05
   jp process_results
 

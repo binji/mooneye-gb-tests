@@ -14,23 +14,17 @@
 ; You should have received a copy of the GNU General Public License
 ; along with Mooneye GB.  If not, see <http://www.gnu.org/licenses/>.
 
-; This test verifies that the timer count changes are actually triggered
-; by bit 3 going low when writing to the DIV register in 262144 Hz mode.
+; The test checks what values appear in the TIMA register when the
+; timer overflows.
 ;
-; 8 cycles after resetting the internal div counter, bit 3 of the
-; internal div counter will have been set. Writing to the DIV register
-; at this time will cause bit 3 to change from high to low which in
-; turn triggers a timer increment.
-;
-; Since the timer runs quite fast in this mode, this test is executed 
-; by issueing several ldh (<DIV),a instructions. These instructions take
-; 12 cycles and also trigger the mentioned behaviour.
-
+; Apparently the TIMA register contains 00 for 4 cycles before being
+; reloaded with the value from the TMA register. The TIMA increments
+; do still happen every 64 cycles, there is no additional 4 cycle
+; delay.
 
 ; Verified results:
-;   pass: MGB, CGB, AGS
-;   fail: ?
-;   not tested: DMG, SGB, SGB2, AGB
+;   pass: DMG, MGB, SGB, SGB2, CGB, AGB, AGS
+;   fail: -
 
 .incdir "../../common"
 .include "common.s"
@@ -38,23 +32,21 @@
 test:
   di
   xor a
-  ld b,4
+  ld b,$fe
   ldh (<IE), a
   ldh (<IF), a
   ldh (<DIV), a
   ld a, b
   ldh (<TIMA), a
   ldh (<TMA),a
-  ld a, %00000101 ; Start 262144 Hz timer (16 cycles)
+  ld a, %00000110 ; Start 65536 Hz timer (64 cycles)
   ldh (<TAC), a
   ld a,b
   ldh (<DIV),a
   ldh (<TIMA), a
   ldh (<DIV),a
-  ldh (<DIV),a
-  ldh (<DIV),a
-  ldh (<DIV),a
-  ldh (<DIV),a
+  nops 16
+  nops 12
   ldh a,(<TIMA)
   ld d,a
 
@@ -63,16 +55,63 @@ test:
   ldh (<DIV),a
   ldh (<TIMA), a
   ldh (<DIV),a
-  ldh (<DIV),a
-  ldh (<DIV),a
-  ldh (<DIV),a
-  ldh (<DIV),a
-  nop
+  nops 16
+  nops 13
   ldh a,(<TIMA)
   ld e,a
 
+  ld a,b
+  ldh (<TIMA), a
+  ldh (<DIV),a
+  ldh (<TIMA), a
+  ldh (<DIV),a
+  nops 16
+  nops 14
+  ldh a,(<TIMA)
+  ld c,a
+
+  ld a,b
+  ldh (<TIMA), a
+  ldh (<DIV),a
+  ldh (<TIMA), a
+  ldh (<DIV),a
+  nops 16
+  nops 16
+  nops 16
+  nops 12
+  ldh a,(<TIMA)
+  ld h,a
+
+  ld a,b
+  ldh (<TIMA), a
+  ldh (<DIV),a
+  ldh (<TIMA), a
+  ldh (<DIV),a
+  nops 16
+  nops 16
+  nops 16
+  nops 13
+  ldh a,(<TIMA)
+  ld l,a
+
+  ld a,b
+  ldh (<TIMA), a
+  ldh (<DIV),a
+  ldh (<TIMA), a
+  ldh (<DIV),a
+  nops 16
+  nops 16
+  nops 16
+  nops 14
+  ldh a,(<TIMA)
+  ld b,a
+
   save_results
-  assert_d $0A
-  assert_e $0B
+  assert_b $fe
+  assert_c $fe
+  assert_d $ff
+  assert_e $00
+  assert_h $ff
+  assert_l $00
   jp process_results
 

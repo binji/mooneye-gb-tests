@@ -14,13 +14,14 @@
 ; You should have received a copy of the GNU General Public License
 ; along with Mooneye GB.  If not, see <http://www.gnu.org/licenses/>.
 
-; This test tests which write to the TIMA register is ignored when
-; the timer is reloading.
+; This test checks when the timer count changes in 16384 Hz mode.
+;
+; The TIMA register is expected to increment every 256 cycles after the
+; div counter has been reset.
 
 ; Verified results:
-;   pass: MGB, CGB, AGS
-;   fail: ?
-;   not tested: DMG, SGB, SGB2, AGB
+;   pass: DMG, MGB, SGB, SGB2, CGB, AGB, AGS
+;   fail: -
 
 .incdir "../../common"
 .include "common.s"
@@ -28,67 +29,39 @@
 test:
   di
   xor a
-  ld b,$fe
-  ld h,$7f
+  ld b,4
   ldh (<IE), a
   ldh (<IF), a
   ldh (<DIV), a
   ld a, b
   ldh (<TIMA), a
   ldh (<TMA),a
-  ld a, %00000110 ; Start 65536 Hz timer (64 cycles)
+  ld a, %00000111 ; Start 16384 Hz timer (256 cycles)
   ldh (<TAC), a
+  xor a
+  ldh (<DIV),a
   ld a,b
-  ldh (<DIV),a
   ldh (<TIMA), a
+  xor a
   ldh (<DIV),a
-  ld a,h
-  nops 16
-  nops 11
-  ldh (<TIMA),a
+  nops 60
   ldh a,(<TIMA)
   ld d,a
 
   ld a,b
   ldh (<TIMA), a
+  xor a
   ldh (<DIV),a
+  ld a,b
   ldh (<TIMA), a
+  xor a
   ldh (<DIV),a
-  ld a,h
-  nops 16
-  nops 12
-  ldh (<TIMA),a
+  nops 61
   ldh a,(<TIMA)
   ld e,a
 
-  ld a,b
-  ldh (<TIMA), a
-  ldh (<DIV),a
-  ldh (<TIMA), a
-  ldh (<DIV),a
-  ld a,h
-  nops 16
-  nops 13
-  ldh (<TIMA),a
-  ldh a,(<TIMA)
-  ld c,a
-
-  ld a,b
-  ldh (<TIMA), a
-  ldh (<DIV),a
-  ldh (<TIMA), a
-  ldh (<DIV),a
-  ld a,h
-  nops 16
-  nops 14
-  ldh (<TIMA),a
-  ldh a,(<TIMA)
-  ld l,a
-
   save_results
-  assert_c $fe
-  assert_d $80
-  assert_e $7f
-  assert_l $7f
+  assert_d $04
+  assert_e $05
   jp process_results
 
