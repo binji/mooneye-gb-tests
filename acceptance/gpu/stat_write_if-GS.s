@@ -106,69 +106,88 @@
   testcase_0 $00, $08, 2, 2
   testcase_0 $00, $10, 2, 0
   testcase_0 $00, $20, 2, 0
+  testcase_0 $00, $40, 2, 0
   testcase_1 $00, $00, 2, 0
   testcase_1 $00, $08, 2, 0
   testcase_1 $00, $10, 2, 2
   testcase_1 $00, $20, 2, 0
-  testcase_2 $00, $00, 2, 2
-  testcase_2 $00, $08, 2, 2
-  testcase_2 $00, $10, 2, 2
-  testcase_2 $00, $20, 2, 2
+  testcase_1 $00, $40, 2, 0
+  testcase_2 $00, $00, 0, 0
+  testcase_2 $00, $08, 0, 0
+  testcase_2 $00, $10, 0, 0
+  testcase_2 $00, $20, 0, 0
+  testcase_2 $00, $40, 0, 0
   testcase_3 $00, $00, 0, 0
   testcase_3 $00, $08, 0, 0
   testcase_3 $00, $10, 0, 0
   testcase_3 $00, $20, 0, 0
+  testcase_3 $00, $40, 0, 0
   ; $08 set
+  ; #14
   testcase_0 $08, $00, 0, 0
   testcase_0 $08, $08, 0, 0
   testcase_0 $08, $10, 0, 0
   testcase_0 $08, $20, 0, 0
+  testcase_0 $08, $40, 0, 0
   testcase_1 $08, $00, 2, 0
   testcase_1 $08, $08, 2, 0
   testcase_1 $08, $10, 2, 2
   testcase_1 $08, $20, 2, 0
-  testcase_2 $08, $00, 2, 2
-  testcase_2 $08, $08, 2, 2
-  testcase_2 $08, $10, 2, 2
-  testcase_2 $08, $20, 2, 2
+  testcase_1 $08, $40, 2, 0
+  testcase_2 $08, $00, 0, 0
+  testcase_2 $08, $08, 0, 0
+  testcase_2 $08, $10, 0, 0
+  testcase_2 $08, $20, 0, 0
+  testcase_2 $08, $40, 0, 0
   testcase_3 $08, $00, 0, 0
   testcase_3 $08, $08, 0, 0
   testcase_3 $08, $10, 0, 0
   testcase_3 $08, $20, 0, 0
+  testcase_3 $08, $40, 0, 0
   ; $10 set
+  ; #28
   testcase_0 $10, $00, 2, 0
   testcase_0 $10, $08, 2, 2
   testcase_0 $10, $10, 2, 0
   testcase_0 $10, $20, 2, 0
+  testcase_0 $10, $40, 2, 0
   testcase_1 $10, $00, 0, 0
   testcase_1 $10, $08, 0, 0
   testcase_1 $10, $10, 0, 0
   testcase_1 $10, $20, 0, 0
-  testcase_2 $10, $00, 2, 2
-  testcase_2 $10, $08, 2, 2
-  testcase_2 $10, $10, 2, 2
-  testcase_2 $10, $20, 2, 2
+  testcase_1 $10, $40, 0, 0
+  testcase_2 $10, $00, 0, 0
+  testcase_2 $10, $08, 0, 0
+  testcase_2 $10, $10, 0, 0
+  testcase_2 $10, $20, 0, 0
+  testcase_2 $10, $40, 0, 0
   testcase_3 $10, $00, 0, 0
   testcase_3 $10, $08, 0, 0
   testcase_3 $10, $10, 0, 0
   testcase_3 $10, $20, 0, 0
+  testcase_3 $10, $40, 0, 0
   ; $20 set
+  ; #3C
   testcase_0 $20, $00, 2, 0
   testcase_0 $20, $08, 2, 2
   testcase_0 $20, $10, 2, 0
   testcase_0 $20, $20, 2, 0
+  testcase_0 $20, $40, 2, 0
   testcase_1 $20, $00, 2, 0
   testcase_1 $20, $08, 2, 0
   testcase_1 $20, $10, 2, 2
   testcase_1 $20, $20, 2, 0
-  testcase_2 $20, $00, 2, 2
-  testcase_2 $20, $08, 2, 2
-  testcase_2 $20, $10, 2, 2
-  testcase_2 $20, $20, 2, 2
+  testcase_1 $20, $40, 2, 0
+  testcase_2 $20, $00, 0, 0
+  testcase_2 $20, $08, 0, 0
+  testcase_2 $20, $10, 0, 0
+  testcase_2 $20, $20, 0, 0
+  testcase_2 $20, $40, 0, 0
   testcase_3 $20, $00, 0, 0
   testcase_3 $20, $08, 0, 0
   testcase_3 $20, $10, 0, 0
   testcase_3 $20, $20, 0, 0
+  testcase_3 $20, $40, 0, 0
   ; other cases
   testcase_0 $00, $40, 2, 0
   testcase_1 $08, $10, 2, 2
@@ -197,11 +216,11 @@ run_testcase_0:
   push hl
   wait_ly 144
   disable_lcd
+  ld a,d
+  ldh (<STAT),a
   enable_lcd
   pop hl
   wait_ly 10
-  ld a,d
-  ldh (<STAT),a
   wait_not_mode 0
   wait_mode 0
   clear_interrupts
@@ -218,11 +237,11 @@ run_testcase_1:
   push hl
   wait_ly 144
   disable_lcd
+  ld a,d
+  ldh (<STAT),a
   enable_lcd
   pop hl
   wait_ly 142
-  ld a,d
-  ldh (<STAT),a
   wait_not_mode 1
   wait_mode 1
   clear_interrupts
@@ -239,13 +258,14 @@ run_testcase_2:
   push hl
   wait_ly 144
   disable_lcd
+  ld a,d
+  ldh (<STAT),a
   enable_lcd
   pop hl
   wait_ly 10
-  ld a,d
-  ldh (<STAT),a
   wait_not_mode 2
   wait_mode 2
+  clear_interrupts
   ld a,e
   ldh (<STAT),a
   ldh a,(<IF)
@@ -259,11 +279,11 @@ run_testcase_3:
   push hl
   wait_ly 144
   disable_lcd
+  ld a,d
+  ldh (<STAT),a
   enable_lcd
   pop hl
   wait_ly 10
-  ld a,d
-  ldh (<STAT),a
   wait_not_mode 3
   wait_mode 3
   clear_interrupts
@@ -280,13 +300,13 @@ run_testcase_line:
   push hl
   wait_ly 144
   disable_lcd
+  ld a,d
+  ldh (<STAT),a
   enable_lcd
   pop hl
   ld a,10
   ldh (<LYC),a
   wait_ly 10
-  ld a,d
-  ldh (<STAT),a
   wait_not_mode 3
   wait_mode 3
   clear_interrupts
