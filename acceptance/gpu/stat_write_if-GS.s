@@ -188,7 +188,30 @@
   testcase_3 $20, $10, 0, 0
   testcase_3 $20, $20, 0, 0
   testcase_3 $20, $40, 0, 0
+  ; $40 set
+  ; #50
+  testcase_0 $40, $00, 2, 0
+  testcase_0 $40, $08, 2, 2
+  testcase_0 $40, $10, 2, 0
+  testcase_0 $40, $20, 2, 0
+  testcase_0 $40, $40, 2, 0
+  testcase_1 $40, $00, 2, 0
+  testcase_1 $40, $08, 2, 0
+  testcase_1 $40, $10, 2, 2
+  testcase_1 $40, $20, 2, 0
+  testcase_1 $40, $40, 2, 0
+  testcase_2 $40, $00, 0, 0
+  testcase_2 $40, $08, 0, 0
+  testcase_2 $40, $10, 0, 0
+  testcase_2 $40, $20, 0, 0
+  testcase_2 $40, $40, 0, 0
+  testcase_3 $40, $00, 0, 0
+  testcase_3 $40, $08, 0, 0
+  testcase_3 $40, $10, 0, 0
+  testcase_3 $40, $20, 0, 0
+  testcase_3 $40, $40, 0, 0
   ; other cases
+  ; #64
   testcase_0 $00, $40, 2, 0
   testcase_1 $08, $10, 2, 2
   testcase_line $40, $00, 0, 0
