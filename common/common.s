@@ -364,8 +364,18 @@ _print_results_halt_\@:
     xor a
     ldh (<SCY), a
     ldh (<SCX), a
+
+.ifeq CART_CGB 1
+    ld a, $82
+    ldh (<BCPS), a
+    xor a
+  .repeat 6
+    ldh (<BCPD), a
+  .endr
+.else
     ld a, $FC
     ldh (<BGP), a
+.endif
 
     call clear_vram
     ret
