@@ -21,6 +21,8 @@
 ;   fail: MGB
 ;   untested: DNG, SGB, SGB2, AGB
 
+.define CART_CGB 1
+
 .incdir "../../common"
 .include "common.s"
 

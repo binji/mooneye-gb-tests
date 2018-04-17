@@ -249,6 +249,9 @@ _print_results_halt_\@:
 .ifndef CART_RAM_SIZE
   .define CART_RAM_SIZE 0
 .endif
+.ifndef CART_CGB
+  .define CART_CGB 0
+.endif
 
 .rombanksize $4000
 .rombanks CART_ROM_BANKS
@@ -256,7 +259,13 @@ _print_results_halt_\@:
 .emptyfill $FF
 .cartridgetype CART_TYPE
 .ramsize CART_RAM_SIZE
-.romdmg
+
+.ifeq CART_CGB 1
+  .romgbc
+.else
+  .romdmg
+.endif
+
 .name "mooneye-gb test"
 .computegbcomplementcheck
 .computegbchecksum
